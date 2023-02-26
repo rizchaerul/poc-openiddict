@@ -44,9 +44,12 @@ builder.Services
         options.AllowAuthorizationCodeFlow().RequireProofKeyForCodeExchange();
         // Client Credentials
         options.AllowClientCredentialsFlow();
+        options.AllowRefreshTokenFlow();
         options
             .SetAuthorizationEndpointUris("/connect/authorize")
-            .SetTokenEndpointUris("/connect/token");
+            .SetTokenEndpointUris("/connect/token")
+            .SetUserinfoEndpointUris("/connect/userinfo")
+            .SetLogoutEndpointUris("/connect/endsession");
 
         // Encryption and signing of tokens
         options
@@ -62,6 +65,7 @@ builder.Services
             .UseAspNetCore()
             .EnableTokenEndpointPassthrough()
             .EnableAuthorizationEndpointPassthrough()
+            .EnableUserinfoEndpointPassthrough()
             .EnableLogoutEndpointPassthrough();            
     });
 
