@@ -40,8 +40,13 @@ builder.Services
     // Register the OpenIddict server components.
     .AddServer(options =>
     {
+        // PKCE
+        options.AllowAuthorizationCodeFlow().RequireProofKeyForCodeExchange();
+        // Client Credentials
         options.AllowClientCredentialsFlow();
-        options.SetTokenEndpointUris("/connect/token");
+        options
+            .SetAuthorizationEndpointUris("/connect/authorize")
+            .SetTokenEndpointUris("/connect/token");
 
         // Encryption and signing of tokens
         options
@@ -56,6 +61,7 @@ builder.Services
         options
             .UseAspNetCore()
             .EnableTokenEndpointPassthrough()
+            .EnableAuthorizationEndpointPassthrough()
             .EnableLogoutEndpointPassthrough();            
     });
 

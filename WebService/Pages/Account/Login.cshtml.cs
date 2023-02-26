@@ -42,6 +42,14 @@ namespace WebService.Pages.Account
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
 
+            if (string.IsNullOrEmpty(ReturnUrl) == false)
+            {
+                if (Url.IsLocalUrl(ReturnUrl))
+                {
+                    return Redirect(ReturnUrl);
+                }
+            }
+
             return Redirect("/");
         }
     }
